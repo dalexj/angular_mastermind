@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html ng-app>
+  <head>
+    <meta charset="utf-8">
+    <title>Angular Mastermind</title>
+    <script src="angular.js"></script>
+<style media="screen">
+.circle {
+  border-radius: 20px;
+  height: 40px;
+  width: 40px;
+}
+
+.color.R {
+  background-color: #f42727;
+}
+.color.G {
+  background-color: #0a0;
+}
+.color.B {
+  background-color: #0e2fd4;
+}
+.color.W {
+  background-color: #ffffff;
+}
+.color.Y {
+  background-color: #d3f427;
+}
+
+table {
+  background-color: #CCC;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+body {
+  margin-left: 80px;
+  margin-top: 80px;
+}
+
+td {
+  height: 50px;
+  width: 50px;
+}
+
+</style>
+
+<script type="text/javascript">
+  function MasterMindController($scope) {
+    $scope.guesses = ['YRBG', 'RGGB', 'RWBB'];
+    $scope.newGuess = '';
+    $scope.takeGuess = function() {
+      var validGuess = /^[RGBWY]{4}$/.test($scope.newGuess.toUpperCase());
+      if($scope.newGuess.length === 4 && validGuess) {
+        $scope.guesses.unshift($scope.newGuess.toUpperCase());
+        $scope.newGuess = '';
+      }
+    }
+  }
+</script>
+
+  </head>
+  <body ng-controller="MasterMindController">
+
+    <h3>Enter a 4-length Guess (RGBWY only)</h3>
+    <form ng-submit="takeGuess()">
+      <input type="text" ng-model="newGuess">
+    </form>
+    <br />
+
+    <table>
+      <tr ng-repeat="num in [0,1,2,3]">
+        <td ng-repeat="guess in guesses">
+          <div class="circle color {{ guess[num] }}"></div>
+        </td>
+      </tr>
+    </table>
+
+
+  </body>
+</html>
