@@ -4,135 +4,8 @@
     <meta charset="utf-8">
     <title>Angular Mastermind</title>
     <script src="angular.js"></script>
-<style media="screen">
-.small-circle {
-  border-radius: 5px;
-  height: 10px;
-  float: left;
-  margin: 5px;
-  width: 10px;
-}
-
-.circle {
-  border-radius: 40px;
-  height: 20px;
-  width: 20px;
-}
-
-.color.R {
-  background-color: #f42727;
-}
-.color.G {
-  background-color: #0a0;
-}
-.color.B {
-  background-color: #0e2fd4;
-}
-.color.W {
-  background-color: #ffffff;
-}
-.color.Y {
-  background-color: #d3f427;
-}
-
-table {
-  background-color: #CCC;
-  padding: 10px;
-  border-radius: 10px;
-}
-
-body {
-  margin-left: 80px;
-  margin-top: 80px;
-}
-
-input[type="text"] {
-  font-size: 20px;
-}
-
-td {
-  height: 50px;
-  width: 50px;
-}
-
-button {
-  font-size: 20px;
-}
-
-</style>
-
-<script type="text/javascript">
-  function MasterMindController($scope) {
-    init($scope);
-    $scope.takeGuess = function() {
-      $scope.newGuess = $scope.newGuess.toUpperCase();
-      var validGuess = /^[RGBWY]{4}$/.test($scope.newGuess);
-      if($scope.newGuess.length === 4 && validGuess) {
-        if($scope.secret === $scope.newGuess) {
-          console.log('you win');
-        }
-        $scope.guesses.unshift({
-          redPegs:     countRedPegs($scope.newGuess, $scope.secret),
-          whitePegs: countWhitePegs($scope.newGuess, $scope.secret),
-          colors: $scope.newGuess
-        });
-
-        $scope.guesses.pop();
-        if($scope.guesses[9].colors != '') {
-          console.log('you lost');
-        }
-        $scope.newGuess = '';
-      }
-    };
-    $scope.newGame = function() {
-      init($scope);
-    };
-    $scope.range = function(n) {
-      return new Array(n);
-    }
-  }
-
-  function init($scope) {
-    $scope.guesses = [];
-    for (var i = 0; i < 10; i++) {
-      $scope.guesses.push({ redPegs: 0, whitePegs: 0, colors: '' });
-    }
-    $scope.newGuess = '';
-    $scope.secret = '';
-    var possibilities = 'RBGYW';
-    for (var i = 0; i < 4; i++) {
-      $scope.secret += possibilities[Math.floor(Math.random()*possibilities.length)];
-    }
-  }
-
-  function countRedPegs(guess, secret) {
-    var count = 0;
-    for (var i = 0; i < 4; i++) {
-      if(guess[i] === secret[i]) {
-        count++;
-      }
-    }
-    return count;
-  }
-  function countWhitePegs(guess, secret) {
-    var secretCount = colorCount(secret);
-    var guessCount = colorCount(guess);
-    var count = 0;
-    for(var color in secretCount) {
-      count += Math.min(secretCount[color], guessCount[color]) || 0;
-    }
-    return count - countRedPegs(guess, secret);
-  }
-  function colorCount(pattern) {
-    var totals = {};
-    for (var i = 0; i < pattern.length; i++) {
-      totals[pattern[i]] = totals[pattern[i]] || 0;
-      totals[pattern[i]]++;
-    }
-    return totals;
-  }
-
-</script>
+    <link rel="stylesheet" href="styles.css" media="screen" charset="utf-8">
+    <script type="text/javascript" src="mastermind.js"></script>
 
   </head>
   <body ng-controller="MasterMindController">
@@ -153,7 +26,7 @@ button {
         </td>
       </tr>
 
-      <tr>
+      <tr class="peg-row">
         <td ng-repeat="guess in guesses">
           <div class="small-circle color R" ng-repeat="x in range(guess.redPegs)"></div>
           <div class="small-circle color W" ng-repeat="x in range(guess.whitePegs)"></div>
