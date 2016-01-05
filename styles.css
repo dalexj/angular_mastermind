@@ -7,9 +7,9 @@
 }
 
 .circle {
-  border-radius: 40px;
-  height: 20px;
-  width: 20px;
+  border-radius: 20px;
+  height: 40px;
+  width: 40px;
 }
 
 .color.R {
@@ -44,6 +44,7 @@ input[type="text"] {
 }
 
 td {
+  margin: 0 auto;
   height: 50px;
   width: 50px;
 }
@@ -53,6 +54,10 @@ button {
 }
 
 .peg-row {
-  border-top: 1px solid black;
+  background-color: #ddd;
   border-radius: 0 0 10px 10px;
+}
+
+.peg-row td {
+  vertical-align: top;
 }

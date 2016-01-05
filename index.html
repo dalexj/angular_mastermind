@@ -1,39 +1,48 @@
-<!DOCTYPE html>
-<html ng-app="MasterMindApp">
+<html>
   <head>
     <meta charset="utf-8">
     <title>Angular Mastermind</title>
     <script src="angular.js"></script>
-    <link rel="stylesheet" href="styles.css" media="screen" charset="utf-8">
     <script type="text/javascript" src="mastermind.js"></script>
+    <link rel="stylesheet" href="styles.css" media="screen" charset="utf-8">
 
   </head>
-  <body ng-controller="MasterMindController">
+  <body>
+    <div ng-app="MasterMindApp">
+      <div ng-controller="MasterMindController">
 
-    <h3>Enter a 4-length Guess (RGBWY only)</h3>
-    <form ng-submit="takeGuess()">
-      <input type="text" ng-model="newGuess" autofocus focus-on="newGameEvent">
-    </form>
-    <br />
-    <button ng-click="newGame()">New Game</button>
-    <br />
-    <br />
+        <h3>Enter a 4-length Guess (RGBWY only)</h3>
+        <form ng-submit="takeGuess()">
+          <input type="text" ng-model="newGuess" autofocus focus-on="newGameEvent" ng-disabled="gameOver">
+        </form>
+        <br />
+        <button ng-click="newGame()">New Game</button>
+        <br />
+        <div ng-if="gameOver">
+          <h1>
+            {{ gameOverMessage() }}
+          </h1>
+        </div>
+        <br />
+        <br />
 
-    <table>
-      <tr ng-repeat="num in [0,1,2,3]">
-        <td ng-repeat="guess in guesses">
-          <div class="circle color {{ guess.colors[num] }}"></div>
-        </td>
-      </tr>
-    </table>
-    <table class="peg-row">
-      <tr>
-        <td ng-repeat="guess in guesses">
-          <div class="small-circle color R" ng-repeat="x in range(guess.redPegs)"></div>
-          <div class="small-circle color W" ng-repeat="x in range(guess.whitePegs)"></div>
-        </td>
-      </tr>
-    </table>
+        <table>
+          <tr ng-repeat="num in [0,1,2,3]">
+            <td ng-repeat="guess in guesses">
+              <div class="circle color {{ guess.colors[num] }}"></div>
+            </td>
+          </tr>
+        </table>
+        <table class="peg-row">
+          <tr>
+            <td ng-repeat="guess in guesses">
+              <div class="small-circle color R" ng-repeat="x in range(guess.redPegs) track by $index"></div>
+              <div class="small-circle color W" ng-repeat="x in range(guess.whitePegs) track by $index"></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
 
   </body>
 </html>

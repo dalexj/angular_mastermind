@@ -1,12 +1,13 @@
 var MasterMindApp = angular.module('MasterMindApp', []);
-function MasterMindController($scope) {
+MasterMindApp.controller('MasterMindController', function($scope) {
   init($scope);
   $scope.takeGuess = function() {
     var validGuess = /^[RGBWY]{4}$/.test($scope.newGuess.toUpperCase());
     if($scope.newGuess.length === 4 && validGuess) {
       $scope.newGuess = $scope.newGuess.toUpperCase();
       if($scope.secret === $scope.newGuess) {
-        console.log('you win');
+        $scope.gameOver = true;
+        $scope.gameWon = true;
       }
       $scope.guesses.unshift({
         redPegs:     countRedPegs($scope.newGuess, $scope.secret),
@@ -15,20 +16,26 @@ function MasterMindController($scope) {
       });
 
       $scope.guesses.pop();
-      if($scope.guesses[9].colors !== '') {
-        console.log('you lost');
+      if($scope.guesses[9].colors !== '' && !$scope.gameOver) {
+        $scope.gameOver = true;
+        $scope.gameWon = false;
       }
       $scope.newGuess = '';
     }
   };
   $scope.newGame = function() {
     init($scope);
-    $scope.$broadcast('newGameEvent');
+    setTimeout(function () {
+      $scope.$broadcast('newGameEvent');
+    }, 50);
+  };
+  $scope.gameOverMessage = function() {
+    return $scope.gameWon ? 'You won!' : 'You lost.';
   };
   $scope.range = function(n) {
     return new Array(n);
   };
-}
+});
 
 function init($scope) {
   var i = 0;
@@ -42,6 +49,8 @@ function init($scope) {
   for (i = 0; i < 4; i++) {
     $scope.secret += possibilities[Math.floor(Math.random()*possibilities.length)];
   }
+  $scope.gameOver = false;
+  $scope.gameWon = false;
 }
 
 function countRedPegs(guess, secret) {
