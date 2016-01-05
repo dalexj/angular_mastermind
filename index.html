@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app>
+<html ng-app="MasterMindApp">
   <head>
     <meta charset="utf-8">
     <title>Angular Mastermind</title>
@@ -12,7 +12,7 @@
 
     <h3>Enter a 4-length Guess (RGBWY only)</h3>
     <form ng-submit="takeGuess()">
-      <input type="text" ng-model="newGuess" autofocus>
+      <input type="text" ng-model="newGuess" autofocus focus-on="newGameEvent">
     </form>
     <br />
     <button ng-click="newGame()">New Game</button>
@@ -25,15 +25,15 @@
           <div class="circle color {{ guess.colors[num] }}"></div>
         </td>
       </tr>
-
-      <tr class="peg-row">
+    </table>
+    <table class="peg-row">
+      <tr>
         <td ng-repeat="guess in guesses">
           <div class="small-circle color R" ng-repeat="x in range(guess.redPegs)"></div>
           <div class="small-circle color W" ng-repeat="x in range(guess.whitePegs)"></div>
         </td>
       </tr>
     </table>
-
 
   </body>
 </html>

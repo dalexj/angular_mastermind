@@ -1,9 +1,10 @@
+var MasterMindApp = angular.module('MasterMindApp', []);
 function MasterMindController($scope) {
   init($scope);
   $scope.takeGuess = function() {
-    $scope.newGuess = $scope.newGuess.toUpperCase();
-    var validGuess = /^[RGBWY]{4}$/.test($scope.newGuess);
+    var validGuess = /^[RGBWY]{4}$/.test($scope.newGuess.toUpperCase());
     if($scope.newGuess.length === 4 && validGuess) {
+      $scope.newGuess = $scope.newGuess.toUpperCase();
       if($scope.secret === $scope.newGuess) {
         console.log('you win');
       }
@@ -22,6 +23,7 @@ function MasterMindController($scope) {
   };
   $scope.newGame = function() {
     init($scope);
+    $scope.$broadcast('newGameEvent');
   };
   $scope.range = function(n) {
     return new Array(n);
@@ -68,3 +70,11 @@ function colorCount(pattern) {
   }
   return totals;
 }
+
+MasterMindApp.directive('focusOn', function() {
+   return function(scope, elem, attr) {
+      scope.$on(attr.focusOn, function(e) {
+          elem[0].focus();
+      });
+   };
+});
