@@ -4,6 +4,7 @@
     <title>Angular Mastermind</title>
     <script src="angular.js"></script>
     <script type="text/javascript" src="mastermind.js"></script>
+    <script type="text/javascript" src="mastermind-app.js"></script>
     <link rel="stylesheet" href="styles.css" media="screen" charset="utf-8">
 
   </head>
@@ -12,6 +13,7 @@
       <div ng-controller="MasterMindController">
 
         <h3>Enter a 4-length Guess (RGBWY only)</h3>
+        <h4 ng-if="showInputErrorMessage" style="color:red;">Invalid Guess</h4>
         <form ng-submit="takeGuess()">
           <input type="text" ng-model="newGuess" autofocus focus-on="newGameEvent" ng-disabled="gameOver">
         </form>
